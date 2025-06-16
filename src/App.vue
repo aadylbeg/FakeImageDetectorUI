@@ -171,7 +171,8 @@
 										: 'bg-green-100 text-green-800',
 								]"
 							>
-								{{ (results.confidence * 100).toFixed(1) }}% confidence
+								{{ results.confidence }} confidence
+								<!-- {{ (results.confidence * 100).toFixed(1) }}% confidence -->
 							</span>
 						</div>
 
@@ -179,7 +180,7 @@
 							<div
 								class="h-2.5 rounded-full"
 								:class="results.is_ai_generated ? 'bg-red-600' : 'bg-green-600'"
-								:style="`width: ${results.confidence * 100}%`"
+								:style="`width: ${results.confidence}`"
 							></div>
 						</div>
 					</div>
@@ -305,7 +306,6 @@ export default {
 						method: "POST",
 						body: formData,
 					});
-					console.log(response);
 				} else if (this.imageUrl) {
 					response = await fetch("http://localhost:5000/get-image", {
 						method: "POST",
@@ -324,6 +324,7 @@ export default {
 				}
 
 				this.results = await response.json();
+				console.log(this.results);
 			} catch (err) {
 				this.error = err.message;
 			} finally {
